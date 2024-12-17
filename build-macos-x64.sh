@@ -11,7 +11,7 @@ cd src/skia;
 python3 tools/git-sync-deps;
 python3 bin/fetch-ninja;
 
-release_name=release-macos-arm64;
+release_name=release-macos-x64;
 
 rm -rf out/$release_name;
 mkdir -p out/$release_name;
@@ -19,7 +19,7 @@ mkdir -p out/$release_name;
 
 args_file=out/$release_name/args.gn;
 echo "is_official_build = true" >> $args_file;
-echo "target_cpu = \"arm64\"" >> $args_file;
+echo "target_cpu = \"x64\"" >> $args_file;
 echo "skia_use_system_expat = false" >> $args_file;
 echo "skia_use_system_libjpeg_turbo = false" >> $args_file;
 echo "skia_use_system_libpng = false" >> $args_file;
