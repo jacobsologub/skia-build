@@ -18,16 +18,16 @@ mkdir -p out/$release_name;
 
 
 args_file=out/$release_name/args.gn;
-echo "is_official_build = true" >> $args_file;
-echo "target_cpu = \"arm64\"" >> $args_file;
-echo "skia_use_system_expat = false" >> $args_file;
-echo "skia_use_system_libjpeg_turbo = false" >> $args_file;
-echo "skia_use_system_libpng = false" >> $args_file;
-echo "skia_use_system_libwebp = false" >> $args_file;
-echo "skia_use_system_zlib = false" >> $args_file;
-echo "skia_use_system_icu = false" >> $args_file;
-echo "skia_use_system_harfbuzz = false" >> $args_file;
-echo "extra_cflags_cc=[\"-fexceptions\", \"-frtti\"]" >> $args_file;
+echo 'is_official_build = true' >> $args_file;
+echo 'target_cpu = "arm64"' >> $args_file;
+echo 'skia_use_system_expat = false' >> $args_file;
+echo 'skia_use_system_libjpeg_turbo = false' >> $args_file;
+echo 'skia_use_system_libpng = false' >> $args_file;
+echo 'skia_use_system_libwebp = false' >> $args_file;
+echo 'skia_use_system_zlib = false' >> $args_file;
+echo 'skia_use_system_icu = false' >> $args_file;
+echo 'skia_use_system_harfbuzz = false' >> $args_file;
+echo 'extra_cflags_cc=["-fexceptions", "-frtti"]' >> $args_file;
 
 bin/gn gen out/$release_name
 
