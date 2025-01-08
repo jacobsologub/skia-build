@@ -27,6 +27,7 @@ echo "skia_use_system_libwebp = false" >> $args_file;
 echo "skia_use_system_zlib = false" >> $args_file;
 echo "skia_use_system_icu = false" >> $args_file;
 echo "skia_use_system_harfbuzz = false" >> $args_file;
+echo "extra_cflags_cc=[\"-fexceptions\", \"-frtti\"]" >> $args_file;
 
 bin/gn gen out/$release_name
 
