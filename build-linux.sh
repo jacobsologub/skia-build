@@ -1,7 +1,48 @@
 #!/bin/bash
 
 # build-linux.sh - Build Skia for Linux
-# Usage: ./build-linux.sh
+# Usage: ./build-linux.sh [options]
+# Options:
+#   -y, --non-interactive    Skip confirmation prompts (useful for CI/automation)
+#   -h, --help              Show this help message
+
+# Parse command line arguments
+non_interactive=false
+for arg in "$@"; do
+    case $arg in
+        -y|--non-interactive)
+            non_interactive=true
+            shift
+            ;;
+        -h|--help)
+            echo "Usage: $0 [options]"
+            echo "Options:"
+            echo "  -y, --non-interactive    Skip confirmation prompts (useful for CI/automation)"
+            echo "  -h, --help              Show this help message"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $arg"
+            echo "Use -h or --help for usage information"
+            exit 1
+            ;;
+    esac
+done
+
+# Confirmation function for interactive mode
+confirm_continue() {
+    if [ "$non_interactive" = true ]; then
+        return 0  # Always continue in non-interactive mode
+    fi
+    
+    local prompt="${1:-Continue anyway?}"
+    read -p "$prompt [Y/n] " -n 1 -r
+    echo    # Move to a new line
+    if [[ ! $REPLY =~ ^[Yy]$ ]] && [[ ! -z $REPLY ]]; then
+        return 1  # User said no
+    fi
+    return 0  # User said yes or just pressed enter
+}
 
 # Check for required OpenGL/EGL libraries
 check_gl_dependencies() {
@@ -112,9 +153,15 @@ check_system_dependencies() {
     
     if [ ${#warnings[@]} -gt 0 ]; then
         echo "⚠ Optional system libraries not found: ${warnings[*]}"
-        echo "ℹ These libraries are optional but recommended for better performance."
+        echo "ℹ These libraries are optional. System libraries can reduce binary size and receive OS security updates."
         echo "ℹ To install all: sudo apt-get install ${warnings[*]}"
         echo "ℹ Skia will use bundled versions if system libraries are not available."
+        echo ""
+        
+        if ! confirm_continue "Do you want to continue with bundled libraries?"; then
+            echo "Build cancelled by user."
+            exit 1
+        fi
     fi
     
     return 0
@@ -194,7 +241,12 @@ if ! check_gl_dependencies; then
     echo ""
     echo "❌ Missing OpenGL/EGL dependencies. Build will likely fail."
     echo "  Please install the missing packages before continuing."
-    exit 1
+    
+    if ! confirm_continue "Do you want to try building anyway?"; then
+        echo "Build cancelled by user."
+        exit 1
+    fi
+    echo "⚠️  Proceeding without OpenGL/EGL dependencies - build may fail!"
 fi
 
 echo ""
