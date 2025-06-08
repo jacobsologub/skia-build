@@ -284,6 +284,15 @@ mkdir -p out/$release_name;
 args_file=out/$release_name/args.gn;
 echo 'is_official_build = true' >> $args_file;
 echo "target_cpu = \"$target_cpu\"" >> $args_file;
+
+# Configure compiler - prefer Clang if available
+if command -v clang >/dev/null 2>&1 && command -v clang++ >/dev/null 2>&1; then
+    echo 'cc = "clang"' >> $args_file;
+    echo 'cxx = "clang++"' >> $args_file;
+    echo "Using Clang compiler for optimal performance"
+elif command -v gcc >/dev/null 2>&1 && command -v g++ >/dev/null 2>&1; then
+    echo "Using GCC compiler (warning: performance will be suboptimal)"
+fi
 echo 'skia_use_system_expat = false' >> $args_file;
 echo 'skia_use_system_libjpeg_turbo = false' >> $args_file;
 echo 'skia_use_system_libpng = false' >> $args_file;
