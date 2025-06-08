@@ -77,8 +77,20 @@ check_system_dependencies() {
     local missing_deps=()
     local warnings=()
     
-    # Check for build essentials
-    if ! command -v gcc >/dev/null 2>&1 && ! command -v clang >/dev/null 2>&1; then
+    # Check for build essentials and compiler
+    local compiler_found=false
+    
+    if command -v clang >/dev/null 2>&1 && command -v clang++ >/dev/null 2>&1; then
+        compiler_found=true
+        echo "✓ Clang found (recommended)"
+    elif command -v gcc >/dev/null 2>&1 && command -v g++ >/dev/null 2>&1; then
+        compiler_found=true
+        echo "⚠ GCC found - Warning: Skia strongly recommends Clang for significantly better performance"
+        echo "  See: https://skia.org/docs/user/build/"
+        echo "  To install Clang: sudo apt-get install clang"
+    fi
+    
+    if [ "$compiler_found" = false ]; then
         missing_deps+=("build-essential")
     fi
     
