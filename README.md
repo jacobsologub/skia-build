@@ -18,7 +18,7 @@ This repository contains a shell script that automates the process of building S
    ```
 5. Run the build script.
    ```
-   ./build-macos-universal.sh
+   ./build-macos.sh
    ```
 
 [License](https://github.com/jacobsologub/skia-build/master/LICENSE)
