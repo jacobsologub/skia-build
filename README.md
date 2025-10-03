@@ -1,25 +1,54 @@
 # skia-build
 
-Bash script to build Google's Skia library on macOS for both arm64 and x64 (universal build).
+Scripts to build Google's Skia library for macOS and iOS platforms.
 
 ## Description
 
-This repository contains a shell script that automates the process of building Skia for macOS, ensuring compatibility with both arm64 and x64 architectures.
+This repository contains shell scripts that automate the process of building Skia for:
+- macOS (arm64, x64, and universal binaries)
+- iOS (device, simulator, and XCFramework)
+
+## Skia Version
+
+The Skia version is controlled by `version.txt` which contains a Chrome milestone branch (e.g., `chrome/m140`). This ensures builds use stable Skia releases aligned with Chrome releases.
+
+To change the Skia version, edit `version.txt` with a different Chrome milestone. Available branches can be found at [Chromium Dash](https://chromiumdash.appspot.com/branches).
 
 ## Installation and Build
 
-1. Clone this repository.
-   ```
+1. Clone this repository:
+   ```bash
    git clone https://github.com/jacobsologub/skia-build.git
    ```
-3. Navigate to the cloned directory.
-   ```
+2. Navigate to the cloned directory:
+   ```bash
    cd skia-build
    ```
-5. Run the build script.
-   ```
-   ./build-macos.sh
-   ```
+3. Run the appropriate build script:
+
+### macOS Builds
+```bash
+# Build for current architecture only
+./build-macos.sh
+
+# Build universal binary (arm64 + x64)
+./build-macos.sh --universal
+```
+
+### iOS Builds
+```bash
+# Build for iOS device (arm64)
+./build-ios.sh --device
+
+# Build for iOS simulator (current architecture)
+./build-ios.sh --simulator
+
+# Build universal simulator (x64 + arm64)
+./build-ios.sh --simulator --universal
+
+# Build XCFramework (device + universal simulator)
+./build-ios.sh --xcframework
+```
 
 [License](https://github.com/jacobsologub/skia-build/master/LICENSE)
 -------
