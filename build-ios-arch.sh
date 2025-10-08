@@ -87,6 +87,9 @@ echo 'skia_use_system_icu = false' >> $args_file;
 echo 'skia_use_system_harfbuzz = false' >> $args_file;
 echo 'skia_use_system_freetype2 = false' >> $args_file;
 
+# Enable HarfBuzz for text shaping
+echo 'skia_use_harfbuzz = true' >> $args_file;
+
 # iOS doesn't need ICU configuration like macOS
 echo 'skia_use_icu = true' >> $args_file;
 
@@ -106,6 +109,7 @@ echo 'skia_use_fontconfig = false' >> $args_file;
 echo 'skia_use_freetype = true' >> $args_file;
 echo 'skia_enable_skottie = true' >> $args_file;
 echo 'skia_enable_pdf = true' >> $args_file;
+echo 'skia_enable_skshaper = true' >> $args_file;
 
 # Generate build files
 bin/gn gen out/$release_name

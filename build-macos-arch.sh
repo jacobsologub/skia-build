@@ -105,7 +105,9 @@ echo 'skia_use_system_libwebp = false' >> $args_file;
 echo 'skia_use_system_zlib = false' >> $args_file;
 configure_icu;
 echo 'skia_use_system_harfbuzz = false' >> $args_file;
+echo 'skia_use_harfbuzz = true' >> $args_file;
 echo 'skia_use_metal = true' >> $args_file;
+echo 'skia_enable_skshaper = true' >> $args_file;
 echo 'extra_cflags_cc=["-fexceptions", "-frtti"]' >> $args_file;
 
 bin/gn gen out/$release_name
