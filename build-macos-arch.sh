@@ -10,12 +10,12 @@ detect_icu() {
     
     # Check Homebrew ICU first
     if command -v brew >/dev/null 2>&1; then
-        icu_prefix=$(brew --prefix icu4c 2>/dev/null)
+        icu_prefix=$(brew --prefix icu4c@77 2>/dev/null)
         if [ -n "$icu_prefix" ] && [ -d "$icu_prefix" ]; then
             # Verify ICU headers exist
             if [ -d "$icu_prefix/include/unicode" ]; then
                 export ICU_ROOT="$icu_prefix"
-                icu_version=$(brew list --versions icu4c 2>/dev/null | head -1 | awk '{print $2}')
+                icu_version=$(brew list --versions icu4c@77 2>/dev/null | head -1 | awk '{print $2}')
                 echo "✓ Found ICU via Homebrew at: $ICU_ROOT"
                 if [ -n "$icu_version" ]; then
                     echo "✓ ICU version: $icu_version"
